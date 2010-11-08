@@ -1,6 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
 public class Gui extends JFrame {
 	
@@ -82,13 +83,32 @@ public class Gui extends JFrame {
 	}
 	
 	private void addListeners() {
+		
+		class CListener implements DocumentListener {
+			
+			public void insertUpdate(DocumentEvent e) {
+		        updateTitle();
+			}
+			
+			public void updateTitle() {
+				String t = textField.getText();
+				if (t.length() > 0) {
+					setTitle(""+t.charAt(t.length() - 1));
+				}
+			}
+			
+			// Not used.
+		    public void changedUpdate(DocumentEvent e) {}
+			public void removeUpdate(DocumentEvent e) {}
+		}
+		
 		class ButtonListener implements ActionListener {
 			public void actionPerformed (ActionEvent e) {
 				if (e.getSource() == addBtn) {
 					String t = textField.getText();
 					if (!t.equals("")) {
 						int index = listModel.getSize();
-						listModel.insertElementAt(t, index);
+						listModel.addElement(t);
 						textField.requestFocusInWindow();
 						textField.setText("");
 						
@@ -105,6 +125,7 @@ public class Gui extends JFrame {
 		}
 		
 		addBtn.addActionListener(new ButtonListener());
+		textField.getDocument().addDocumentListener(new CListener());
 	}
 	
 
