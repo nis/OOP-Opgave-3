@@ -5,27 +5,37 @@ public class Gui extends JFrame {
 	
 	private JList list;
     private DefaultListModel listModel;
+
+	private JButton addBtn;
+	private JButton sortBtn;
+	private JTextField textField;
+	private JRadioButton cRBtn;
+    private JRadioButton aRBtn;
+	private JRadioButton sRBtn;
 	
 	public static void main (String args[]) {
 		new Gui();
 	}
 	
 	public Gui () {
+		setupAndShowGUI();
+	}
+	
+	private void setupAndShowGUI() {
 		setTitle("OOP Opgave 3");
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    setSize(545,165);
 		setLocation(650,250);
-	    setVisible(true);
 	
 		Container container = getContentPane();
 		container.setLayout(null); 
 		
-		JButton addBtn = new JButton("Tilføj");
-	    JButton sortBtn = new JButton("Sortér");
-		JTextField textField = new JTextField();
-		JRadioButton cRBtn = new JRadioButton("Courier");
-		JRadioButton aRBtn = new JRadioButton("Arial");
-		JRadioButton sRBtn = new JRadioButton("Serif");
+		addBtn = new JButton("Tilføj");
+	    sortBtn = new JButton("Sortér");
+		textField = new JTextField();
+		cRBtn = new JRadioButton("Courier");
+		aRBtn = new JRadioButton("Arial");
+		sRBtn = new JRadioButton("Serif");
 		
 		ButtonGroup rGroup = new ButtonGroup();
 		rGroup.add(cRBtn);
@@ -65,5 +75,7 @@ public class Gui extends JFrame {
 		JScrollPane tAreaScrollPane = new JScrollPane(tArea);
 		container.add(tAreaScrollPane);
 		tAreaScrollPane.setBounds(375,10,155,120);
+		
+	    setVisible(true);
 	}
 }
