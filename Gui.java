@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Gui extends JFrame {
 	
@@ -19,6 +20,7 @@ public class Gui extends JFrame {
 	
 	public Gui () {
 		setupAndShowGUI();
+		addListeners();
 	}
 	
 	private void setupAndShowGUI() {
@@ -78,4 +80,32 @@ public class Gui extends JFrame {
 		
 	    setVisible(true);
 	}
+	
+	private void addListeners() {
+		class ButtonListener implements ActionListener {
+			public void actionPerformed (ActionEvent e) {
+				if (e.getSource() == addBtn) {
+					String t = textField.getText();
+					if (!t.equals("")) {
+						int index = listModel.getSize();
+						listModel.insertElementAt(t, index);
+						textField.requestFocusInWindow();
+						textField.setText("");
+						
+						list.setSelectedIndex(index);
+			            list.ensureIndexIsVisible(index);
+		            } else {
+						Toolkit.getDefaultToolkit().beep();
+						textField.requestFocusInWindow();
+		                textField.selectAll();
+		                return;
+					}
+				}
+			}
+		}
+		
+		addBtn.addActionListener(new ButtonListener());
+	}
+	
+
 }
