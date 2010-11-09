@@ -9,6 +9,8 @@ public class Gui extends JFrame {
     private DefaultListModel listModel;
 	private Font listFont;
 	
+	JTextArea tArea;
+	
 	private Font rbFont;
 	private JScrollPane listScrollPane;
 
@@ -19,6 +21,8 @@ public class Gui extends JFrame {
     private JRadioButton aRBtn;
 	private JRadioButton sRBtn;
 	
+	private String[] stringArray;
+	
 	public static void main (String args[]) {
 		new Gui();
 	}
@@ -28,10 +32,15 @@ public class Gui extends JFrame {
 		addListeners();
 	}
 	
+	private void reFocus() {
+		textField.requestFocusInWindow();
+        textField.setText("");
+	}
+	
 	private void setupAndShowGUI() {
 		setTitle("OOP Opgave 3: Nis Sarup");
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    setSize(545,165);
+	    setSize(545,145);
 		setLocation(650,250);
 	
 		Container container = getContentPane();
@@ -63,34 +72,34 @@ public class Gui extends JFrame {
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
 	
-		JTextArea tArea = new JTextArea();
+		tArea = new JTextArea();
 	
 		container.add(addBtn);
-		addBtn.setBounds(105,40,70,25);
+		addBtn.setBounds(105,50,70,25);
 		
 		container.add(sortBtn);
-		sortBtn.setBounds(105,70,70,25);
+		sortBtn.setBounds(105,80,70,25);
 		
 		container.add(textField);
 		textField.setBounds(20,10,155,25);
 		
 		container.add(cRBtn);
 		cRBtn.setSelected(true);
-		cRBtn.setBounds(20,35,155,25);
+		cRBtn.setBounds(20,45,155,25);
 		
 		container.add(aRBtn);
-		aRBtn.setBounds(20,55,155,25);
+		aRBtn.setBounds(20,65,155,25);
 		
 		container.add(sRBtn);
-		sRBtn.setBounds(20,75,155,25);
+		sRBtn.setBounds(20,85,155,25);
 
 		listScrollPane = new JScrollPane(list);
 		container.add(listScrollPane);
-		listScrollPane.setBounds(200,10,155,120);
+		listScrollPane.setBounds(200,10,155,100);
 		
 		JScrollPane tAreaScrollPane = new JScrollPane(tArea);
 		container.add(tAreaScrollPane);
-		tAreaScrollPane.setBounds(375,10,155,120);
+		tAreaScrollPane.setBounds(375,10,155,100);
 		
 	    setVisible(true);
 	}
@@ -102,19 +111,14 @@ public class Gui extends JFrame {
 				listFont = new Font(e.getActionCommand(), Font.PLAIN, 14);
 				list.setFont(listFont);
 				list.repaint();
-				textField.requestFocusInWindow();
-				textField.setText("");
+				reFocus();
 			}
 		}
 		
 		class CListener implements DocumentListener {
 			
 			public void insertUpdate(DocumentEvent e) {
-		        updateTitle();
-			}
-			
-			public void updateTitle() {
-				String t = textField.getText();
+		        String t = textField.getText();
 				if (t.length() > 0) {
 					setTitle(""+t.charAt(t.length() - 1));
 				}
@@ -127,20 +131,51 @@ public class Gui extends JFrame {
 		
 		class ButtonListener implements ActionListener {
 			public void actionPerformed (ActionEvent e) {
+				if (e.getSource() == sortBtn) {
+					int size = listModel.getSize();
+					if (size < 1) {
+						return;
+					}
+										
+					String[] sA = new String[size];
+					for (int i = 0; i < size; i++) {
+						sA[i] = listModel.getElementAt(i).toString();
+					}
+					
+					String temp;
+					for(int i = 0; i < size - 1; i++)
+			        {
+			            for(int j = 0; j < size - 1; j++)
+			            {
+			                if(sA[j].compareTo(sA[j+1]) > 0)
+			                {
+			                    temp = sA[j];
+			                    sA[j] = sA[j+1];
+			                    sA[j+1] = temp;
+			                }
+			            }
+			        }
+					
+					tArea.setText("");
+					for (int i = 0; i < size; i++) {
+						tArea.append(sA[i] + "\n");
+					}
+					
+					reFocus();
+				}
+				
 				if (e.getSource() == addBtn) {
 					String t = textField.getText();
 					if (!t.equals("")) {
 						int index = listModel.getSize();
 						listModel.addElement(t);
-						textField.requestFocusInWindow();
-						textField.setText("");
+						reFocus();
 						
 						list.setSelectedIndex(index);
 			            list.ensureIndexIsVisible(index);
 		            } else {
+						reFocus();
 						Toolkit.getDefaultToolkit().beep();
-						textField.requestFocusInWindow();
-		                textField.selectAll();
 		                return;
 					}
 				}
@@ -148,6 +183,7 @@ public class Gui extends JFrame {
 		}
 		
 		addBtn.addActionListener(new ButtonListener());
+		sortBtn.addActionListener(new ButtonListener());
 		textField.getDocument().addDocumentListener(new CListener());
 		cRBtn.addActionListener(new FontListener());
 		aRBtn.addActionListener(new FontListener());
