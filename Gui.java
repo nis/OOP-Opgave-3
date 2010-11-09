@@ -177,10 +177,11 @@ public class Gui extends JFrame {
 					}
 					
 					reFocus();
+					return;
 				}
 				
 				// Add the textare content to the list
-				if (e.getSource() == addBtn) {
+				if (e.getSource() == addBtn || e.getSource() == textField) {
 					String t = textField.getText();
 					if (!t.equals("")) {
 						int index = listModel.getSize();
@@ -201,6 +202,7 @@ public class Gui extends JFrame {
 		// Add listeners
 		addBtn.addActionListener(new ButtonListener());
 		sortBtn.addActionListener(new ButtonListener());
+		textField.addActionListener(new ButtonListener());
 		textField.getDocument().addDocumentListener(new CListener());
 		cRBtn.addActionListener(new FontListener());
 		aRBtn.addActionListener(new FontListener());
