@@ -29,15 +29,18 @@ public class Gui extends JFrame {
 	
 	public Gui () {
 		setupAndShowGUI();
-		addListeners();
+		buildAndAddListeners();
 	}
 	
+	// Refocuses on the textfield
 	private void reFocus() {
 		textField.requestFocusInWindow();
         textField.setText("");
 	}
 	
 	private void setupAndShowGUI() {
+		
+		// Set up the frame
 		setTitle("OOP Opgave 3: Nis Sarup");
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    setSize(545,145);
@@ -46,6 +49,7 @@ public class Gui extends JFrame {
 		Container container = getContentPane();
 		container.setLayout(null); 
 		
+		// Buttons and radiobuttons
 		addBtn = new JButton("Tilføj");
 	    sortBtn = new JButton("Sortér");
 		textField = new JTextField();
@@ -59,11 +63,13 @@ public class Gui extends JFrame {
 		sRBtn = new JRadioButton("Serif");
 		sRBtn.setFont(rbFont);
 		
+		// Groups the radiobuttons
 		ButtonGroup rGroup = new ButtonGroup();
 		rGroup.add(cRBtn);
 		rGroup.add(aRBtn);
 		rGroup.add(sRBtn);
 		
+		// Sets up the list
 		listFont = new Font("Courier", Font.PLAIN, 14);
 		
 		listModel = new DefaultListModel();
@@ -73,7 +79,8 @@ public class Gui extends JFrame {
         list.setSelectedIndex(0);
 	
 		tArea = new JTextArea();
-	
+		
+		// Add and set bounds for all components
 		container.add(addBtn);
 		addBtn.setBounds(105,50,70,25);
 		
@@ -101,11 +108,14 @@ public class Gui extends JFrame {
 		container.add(tAreaScrollPane);
 		tAreaScrollPane.setBounds(375,10,155,100);
 		
+		// Show the frame
 	    setVisible(true);
 	}
 	
-	private void addListeners() {
+	private void buildAndAddListeners() {
 		
+		// Listener for selecting of the fontchooser radiobuttons
+		// Changes the font of the JList
 		class FontListener implements ActionListener {
 			public void actionPerformed (ActionEvent e) {
 				listFont = new Font(e.getActionCommand(), Font.PLAIN, 14);
@@ -115,8 +125,9 @@ public class Gui extends JFrame {
 			}
 		}
 		
+		// Listener for changes to the textfield
+		// Sets the title of the JFrame to the last entered character
 		class CListener implements DocumentListener {
-			
 			public void insertUpdate(DocumentEvent e) {
 		        String t = textField.getText();
 				if (t.length() > 0) {
@@ -129,8 +140,11 @@ public class Gui extends JFrame {
 			public void removeUpdate(DocumentEvent e) {}
 		}
 		
+		// Listener for the two buttons
 		class ButtonListener implements ActionListener {
 			public void actionPerformed (ActionEvent e) {
+				
+				// Extracts the contens of the list, sorts it and fills the textarea with it.
 				if (e.getSource() == sortBtn) {
 					int size = listModel.getSize();
 					if (size < 1) {
@@ -142,6 +156,7 @@ public class Gui extends JFrame {
 						sA[i] = listModel.getElementAt(i).toString();
 					}
 					
+					// Bubble sort
 					String temp;
 					for(int i = 0; i < size - 1; i++)
 			        {
@@ -164,6 +179,7 @@ public class Gui extends JFrame {
 					reFocus();
 				}
 				
+				// Add the textare content to the list
 				if (e.getSource() == addBtn) {
 					String t = textField.getText();
 					if (!t.equals("")) {
@@ -182,6 +198,7 @@ public class Gui extends JFrame {
 			}
 		}
 		
+		// Add listeners
 		addBtn.addActionListener(new ButtonListener());
 		sortBtn.addActionListener(new ButtonListener());
 		textField.getDocument().addDocumentListener(new CListener());
