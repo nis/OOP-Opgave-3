@@ -7,6 +7,10 @@ public class Gui extends JFrame {
 	
 	private JList list;
     private DefaultListModel listModel;
+	private Font listFont;
+	
+	private Font rbFont;
+	private JScrollPane listScrollPane;
 
 	private JButton addBtn;
 	private JButton sortBtn;
@@ -25,7 +29,7 @@ public class Gui extends JFrame {
 	}
 	
 	private void setupAndShowGUI() {
-		setTitle("OOP Opgave 3");
+		setTitle("OOP Opgave 3: Nis Sarup");
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    setSize(545,165);
 		setLocation(650,250);
@@ -36,27 +40,36 @@ public class Gui extends JFrame {
 		addBtn = new JButton("Tilføj");
 	    sortBtn = new JButton("Sortér");
 		textField = new JTextField();
+		rbFont = new Font("Courier", Font.PLAIN, 14);
 		cRBtn = new JRadioButton("Courier");
+		cRBtn.setFont(rbFont);
+		rbFont = new Font("Arial", Font.PLAIN, 14);
 		aRBtn = new JRadioButton("Arial");
+		aRBtn.setFont(rbFont);
+		rbFont = new Font("Serif", Font.PLAIN, 14);
 		sRBtn = new JRadioButton("Serif");
+		sRBtn.setFont(rbFont);
 		
 		ButtonGroup rGroup = new ButtonGroup();
 		rGroup.add(cRBtn);
 		rGroup.add(aRBtn);
 		rGroup.add(sRBtn);
-	
+		
+		listFont = new Font("Courier", Font.PLAIN, 14);
+		
 		listModel = new DefaultListModel();
 		list = new JList(listModel);
+		list.setFont(listFont);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
 	
 		JTextArea tArea = new JTextArea();
 	
 		container.add(addBtn);
-		addBtn.setBounds(100,40,75,25);
+		addBtn.setBounds(105,40,70,25);
 		
 		container.add(sortBtn);
-		sortBtn.setBounds(100,70,75,25);
+		sortBtn.setBounds(105,70,70,25);
 		
 		container.add(textField);
 		textField.setBounds(20,10,155,25);
@@ -71,7 +84,7 @@ public class Gui extends JFrame {
 		container.add(sRBtn);
 		sRBtn.setBounds(20,75,155,25);
 
-		JScrollPane listScrollPane = new JScrollPane(list);
+		listScrollPane = new JScrollPane(list);
 		container.add(listScrollPane);
 		listScrollPane.setBounds(200,10,155,120);
 		
@@ -83,6 +96,16 @@ public class Gui extends JFrame {
 	}
 	
 	private void addListeners() {
+		
+		class FontListener implements ActionListener {
+			public void actionPerformed (ActionEvent e) {
+				listFont = new Font(e.getActionCommand(), Font.PLAIN, 14);
+				list.setFont(listFont);
+				list.repaint();
+				textField.requestFocusInWindow();
+				textField.setText("");
+			}
+		}
 		
 		class CListener implements DocumentListener {
 			
@@ -126,6 +149,9 @@ public class Gui extends JFrame {
 		
 		addBtn.addActionListener(new ButtonListener());
 		textField.getDocument().addDocumentListener(new CListener());
+		cRBtn.addActionListener(new FontListener());
+		aRBtn.addActionListener(new FontListener());
+		sRBtn.addActionListener(new FontListener());
 	}
 	
 
