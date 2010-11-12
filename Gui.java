@@ -32,12 +32,6 @@ public class Gui extends JFrame {
 		buildAndAddListeners();
 	}
 	
-	// Refocuses on the textfield
-	private void reFocus() {
-		textField.requestFocusInWindow();
-        textField.setText("");
-	}
-	
 	private void setupAndShowGUI() {
 		
 		// Set up the frame
@@ -222,6 +216,4 @@ public class Gui extends JFrame {
 		aRBtn.addActionListener(new FontListener());
 		sRBtn.addActionListener(new FontListener());
 	}
-	
-
 }
