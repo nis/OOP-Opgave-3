@@ -32,6 +32,11 @@ public class Gui extends JFrame {
 		buildAndAddListeners();
 	}
 	
+	private void addLineToTextarea(String s) {
+		tArea.append(s + "\n");
+		tArea.setCaretPosition(tArea.getDocument().getLength());
+	}
+	
 	private void setupAndShowGUI() {
 		
 		// Set up the frame
@@ -188,7 +193,7 @@ public class Gui extends JFrame {
 					return;
 				}
 				
-				// Add the textare content to the list
+				// Add the textfield content to the list
 				if (e.getSource() == addBtn || e.getSource() == textField) {
 					String t = textField.getText();
 					if (!t.equals("")) {
@@ -198,6 +203,9 @@ public class Gui extends JFrame {
 						
 						list.setSelectedIndex(index);
 			            list.ensureIndexIsVisible(index);
+			
+						// Add action to log
+						addLineToTextarea("Tilføjet: " + t);
 		            } else {
 						Toolkit.getDefaultToolkit().beep();
 		                return;
