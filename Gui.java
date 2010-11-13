@@ -1,4 +1,4 @@
-// Author: Nis Sarup
+// Author: Nis Sarup <nis@sarup.dk>
 
 import java.awt.*;
 import java.awt.event.*;
