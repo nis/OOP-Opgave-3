@@ -8,7 +8,6 @@ public class Gui extends JFrame {
 	private JList list;
     private DefaultListModel listModel;
 	
-	private Font rbFont;
 	private JScrollPane listScrollPane;
 
 	private JButton addBtn;
@@ -51,15 +50,12 @@ public class Gui extends JFrame {
 		addBtn = new JButton("Tilføj");
 	    sortBtn = new JButton("Sortér");
 		textField = new JTextField();
-		rbFont = new Font("Courier", Font.PLAIN, 14);
 		cRBtn = new JRadioButton("Courier");
-		cRBtn.setFont(rbFont);
-		rbFont = new Font("Arial", Font.PLAIN, 14);
+		cRBtn.setFont(new Font("Courier", Font.PLAIN, 14));
 		aRBtn = new JRadioButton("Arial");
-		aRBtn.setFont(rbFont);
-		rbFont = new Font("Serif", Font.PLAIN, 14);
+		aRBtn.setFont(new Font("Arial", Font.PLAIN, 14));
 		sRBtn = new JRadioButton("Serif");
-		sRBtn.setFont(rbFont);
+		sRBtn.setFont(new Font("Serif", Font.PLAIN, 14));
 		
 		// Groups the radiobuttons
 		ButtonGroup rGroup = new ButtonGroup();
@@ -181,7 +177,7 @@ public class Gui extends JFrame {
 			            }
 			        }
 					
-					// Clear list and put in the sorted list
+					// Clear list and repopulate with the sorted list
 					listModel.clear();
 					for (int i = 0; i < size; i++) {
 						listModel.add(i, sA[i]);
