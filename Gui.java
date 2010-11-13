@@ -33,7 +33,7 @@ public class Gui extends JFrame {
 	}
 	
 	private void addLineToTextarea(String s) {
-		tArea.append(s + "\n");
+		tArea.append("\n" + s);
 		tArea.setCaretPosition(tArea.getDocument().getLength());
 	}
 	
@@ -68,7 +68,7 @@ public class Gui extends JFrame {
 		rGroup.add(aRBtn);
 		rGroup.add(sRBtn);
 		
-		tArea = new JTextArea();
+		tArea = new JTextArea("Program startet.");
 		
 		textFieldLabel.setLabelFor(textField);
 		
@@ -146,7 +146,7 @@ public class Gui extends JFrame {
 			public void insertUpdate(DocumentEvent e) {
 		        String t = textField.getText();
 				if (t.length() > 0) {
-					setTitle(""+t.charAt(t.length() - 1));
+					setTitle("OOP Opgave 3: Nis Sarup: "+t.charAt(t.length() - 1));
 				}
 			}
 			
@@ -186,10 +186,13 @@ public class Gui extends JFrame {
 			            }
 			        }
 					
-					tArea.setText("");
 					for (int i = 0; i < size; i++) {
-						tArea.append(sA[i] + "\n");
+						//tArea.append(sA[i] + "\n");
+						listModel.add(i, sA[i]);
 					}
+					
+					// Add action to log
+					addLineToTextarea("Liste sorteret.");
 					return;
 				}
 				
