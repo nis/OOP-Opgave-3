@@ -7,7 +7,6 @@ public class Gui extends JFrame {
 	
 	private JList list;
     private DefaultListModel listModel;
-	private Font listFont;
 	
 	private Font rbFont;
 	private JScrollPane listScrollPane;
@@ -74,11 +73,9 @@ public class Gui extends JFrame {
 		
 		
 		// Sets up the list
-		listFont = new Font("Courier", Font.PLAIN, 14);
-		
 		listModel = new DefaultListModel();
 		list = new JList(listModel);
-		list.setFont(listFont);
+		list.setFont(new Font("Courier", Font.PLAIN, 14));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
 		
@@ -134,9 +131,7 @@ public class Gui extends JFrame {
 		// Changes the font of the JList
 		class FontListener implements ActionListener {
 			public void actionPerformed (ActionEvent e) {
-				listFont = new Font(e.getActionCommand(), Font.PLAIN, 14);
-				list.setFont(listFont);
-				list.repaint();
+				list.setFont(new Font(e.getActionCommand(), Font.PLAIN, 14));
 			}
 		}
 		
@@ -159,7 +154,7 @@ public class Gui extends JFrame {
 		class ButtonListener implements ActionListener {
 			public void actionPerformed (ActionEvent e) {
 				
-				// Extracts the contens of the list, sorts it and fills the textarea with it.
+				// Sorts the list.
 				if (e.getSource() == sortBtn) {
 					int size = listModel.getSize();
 					if (size < 1) {
@@ -186,10 +181,15 @@ public class Gui extends JFrame {
 			            }
 			        }
 					
+					// Clear list and put in the sorted list
+					listModel.clear();
 					for (int i = 0; i < size; i++) {
-						//tArea.append(sA[i] + "\n");
 						listModel.add(i, sA[i]);
 					}
+					
+					// Scroll to the top
+					list.setSelectedIndex(0);
+		            list.ensureIndexIsVisible(0);
 					
 					// Add action to log
 					addLineToTextarea("Liste sorteret.");
@@ -204,6 +204,7 @@ public class Gui extends JFrame {
 						listModel.addElement(t);
 						textField.setText("");
 						
+						// Scroll down to the newest item
 						list.setSelectedIndex(index);
 			            list.ensureIndexIsVisible(index);
 			
